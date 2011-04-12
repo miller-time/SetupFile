@@ -1,0 +1,6 @@
+SetupFile
+
+This simple script creates a template setup.py file to use
+with setuptools. In its current stage, much of what it does
+is static, but one thing it does is find your 'def main()' in
+order to set up the entry point for your program.
