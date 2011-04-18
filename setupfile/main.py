@@ -30,10 +30,15 @@ def main():
             a = f.read()
             f.close()
             if "def main():" in a:
-                script_main = "{0}.{1}:main".format(root.split("/")[-1], source_file.split('.')[0]) 
+                print "Found main() in file: " + a
+                if script_main is None:
+                    script_main = "{0}.{1}:main".format(root.split("/")[-1], source_file.split('.')[0])
+                    
     result = SETUPFILECONST.format(name=sys.argv[1])
     if script_main is not None:
         result += ENTRYPOINTS.format(script_str=sys.argv[1], script_main_str=script_main)
+    else:
+        print "No main() found, installing as library"
     result += ENDCONST
     f = open("setup.py", 'w')
     f.write(result)
