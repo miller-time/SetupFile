@@ -3,13 +3,13 @@
 #import pudb; pudb.set_trace()
 import os,sys
 
-SETUPFILECONST = 'from setuptools import setup,find_packages\n' + \
-                 '\n' + \
-                 'setup(\n' + \
-                 '    name="{name}",\n' + \
-                 '    version="0.1",\n' + \
-                 '    description="",\n' + \
-                 '    packages=find_packages(),\n'
+SETUPFILETEXT = 'from setuptools import setup,find_packages\n' + \
+                '\n' + \
+                'setup(\n' + \
+                '    name="{name}",\n' + \
+                '    version="0.1",\n' + \
+                '    description="",\n' + \
+                '    packages=find_packages(),\n'
 
 ENTRYPOINTS = '    entry_points=\n' + \
               '        """\n' + \
@@ -17,7 +17,7 @@ ENTRYPOINTS = '    entry_points=\n' + \
               '        {script_str} = {script_main_str}\n' + \
               '        """\n'
 
-ENDCONST = '    )'
+ENDFILE = '    )'
 
 def main():
     if len(sys.argv) != 2:
@@ -34,12 +34,12 @@ def main():
                 if script_main is None:
                     script_main = "{0}.{1}:main".format(root.split("/")[-1], source_file.split('.')[0])
                     
-    result = SETUPFILECONST.format(name=sys.argv[1])
+    result = SETUPFILETEXT.format(name=sys.argv[1])
     if script_main is not None:
         result += ENTRYPOINTS.format(script_str=sys.argv[1], script_main_str=script_main)
     else:
         print "No main() found, installing as library"
-    result += ENDCONST
+    result += ENDFILE
     f = open("setup.py", 'w')
     f.write(result)
     f.close()
